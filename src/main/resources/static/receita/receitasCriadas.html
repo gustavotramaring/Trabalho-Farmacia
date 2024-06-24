@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receitas - MEDLIFE</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #585858);
+        }
+        .container {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container img {
+            width: 50px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container button {
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../pgInicial.html" class="logo">
+            <img src="../.imagens/medlife.webp" alt="Logo MEDLIFE">
+        </a>
+        <h2>Receitas</h2>
+        <button onclick="novaReceita()">Criar Nova Receita</button>
+    </div>
+    <script>
+        function novaReceita() {
+            window.location.href = 'receitaCriacao01.html';
+        }
+    </script>
+</body>
+</html>

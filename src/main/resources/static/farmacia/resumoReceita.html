@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo da Receita - Farmácia</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #585858);
+        }
+        .container {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container p {
+            margin: 10px 0;
+            text-align: left;
+            color: #000;
+        }
+        .container button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Resumo da Receita</h2>
+    <p><strong>ID da Receita:</strong> <span id="id_receita"></span></p>
+    <p><strong>Nome do Paciente:</strong> <span id="nome_paciente"></span></p>
+    <p><strong>Data de Nascimento:</strong> <span id="data_nascimento"></span></p>
+    <p><strong>CPF:</strong> <span id="cpf"></span></p>
+    <p><strong>Plano de Saúde:</strong> <span id="plano_saude"></span></p>
+    <hr>
+    <p><strong>Nome do Médico:</strong> <span id="nome_medico"></span></p>
+    <p><strong>CRM:</strong> <span id="crm"></span></p>
+    <hr>
+    <p><strong>Nome do Medicamento:</strong> <span id="nome_medicamento"></span></p>
+    <p><strong>Dosagem:</strong> <span id="dosagem"></span></p>
+    <p><strong>Via de Administração:</strong> <span id="via_administracao"></span></p>
+    <hr>
+    <p><strong>Data:</strong> <input type="date" id="data"></p>
+    <p><strong>Hora:</strong> <input type="time" id="hora"></p>
+    <p><strong>Farmacêutico Responsável:</strong> <input type="text" id="farmaceutico"></p>
+    <hr>
+    <button onclick="dispensarReceita()">Dispensar Receita</button>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idReceita = urlParams.get('id');
+
+        if (!idReceita) {
+            console.error('O ID da receita não foi encontrado na URL.');
+            return;
+        }
+
+        fetch(`http://localhost:8081/receitas/buscar/${idReceita}`)
+            .then(response => response.json())
+            .then(receita => {
+                document.getElementById('id_receita').innerText = receita.id;
+                document.getElementById('nome_paciente').innerText = receita.nomePaciente;
+                document.getElementById('data_nascimento').innerText = new Date(receita.dataNascimento).toLocaleDateString();
+                document.getElementById('cpf').innerText = receita.cpf;
+                document.getElementById('plano_saude').innerText = receita.planoSaude;
+                document.getElementById('nome_medico').innerText = receita.nomeMedico;
+                document.getElementById('crm').innerText = receita.crm;
+                document.getElementById('nome_medicamento').innerText = receita.nomeMedicamento;
+                document.getElementById('dosagem').innerText = receita.dosagem;
+                document.getElementById('via_administracao').innerText = receita.viaAdministracao;
+            })
+            .catch(error => console.error('Erro ao carregar receita:', error));
+    });
+
+    function dispensarReceita() {
+        const idReceita = document.getElementById('id_receita').innerText;
+        const data = document.getElementById('data').value;
+        const hora = document.getElementById('hora').value;
+        const farmaceutico = document.getElementById('farmaceutico').value;
+
+        fetch(`http://localhost:8081/receitas/excluir/${idReceita}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if(response.ok) {
+                    alert('Receita dispensada com sucesso.');
+                        window.location.href = 'farmaciaReceitas.html';
+                } else {
+                    console.error('Erro ao excluir a receita após a dispensação.');
+                }
+            })
+            .catch(error => console.error('Erro ao excluir receita:', error));
+    }
+</script>
+</body>
+</html>

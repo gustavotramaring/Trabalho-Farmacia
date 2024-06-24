@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados do Medicamento - MEDLIFE</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #585858);
+        }
+        .container {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #333;
+            border-radius: 20px;
+            background-color: #333;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .container label {
+            display: block;
+            margin-top: 10px;
+            color: #000;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        .container button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Dados do Medicamento</h2>
+    <label for="nome_medicamento"></label>
+    <input type="text" id="nome_medicamento" placeholder="Nome do Medicamento">
+    <label for="dosagem"></label>
+    <input type="text" id="dosagem" placeholder="Dosagem">
+    <label for="quantidade"></label>
+    <input type="text" id="quantidade" placeholder="Quantidade">
+    <label for="via_administracao"></label>
+    <input type="text" id="via_administracao" placeholder="Via de Administração">
+    <label for="observacoes"></label>
+    <input type="text" id="observacoes" placeholder="Observações">
+    <button onclick="salvarDadosMedicamento()">Finalizar</button>
+</div>
+<script>
+    function salvarDadosMedicamento() {
+        sessionStorage.setItem('nomeMedicamento', document.getElementById('nome_medicamento').value);
+        sessionStorage.setItem('dosagem', document.getElementById('dosagem').value);
+        sessionStorage.setItem('quantidade', document.getElementById('quantidade').value);
+        sessionStorage.setItem('viaAdministracao', document.getElementById('via_administracao').value);
+        sessionStorage.setItem('observacoes', document.getElementById('observacoes').value);
+        window.location.href = 'receitaGerada.html';
+    }
+</script>
+</body>
+</html>

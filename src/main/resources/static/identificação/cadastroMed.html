@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Médico - MEDLIFE</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #585858);
+        }
+        .container {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container img {
+            width: 50px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .container a.logo {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+        }
+        .container input[type="text"],
+        .container input[type="password"],
+        .container input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #333;
+            border-radius: 20px;
+            background-color: #333;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .container button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .container button:hover {
+            background-color: #555;
+        }
+        .container p {
+            margin-top: 20px;
+        }
+        .container p a {
+            color: #000;
+            text-decoration: none;
+        }
+        .container p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../pgInicial.html" class="logo">
+        <img src="../.imagens/medlife.webp" alt="Logo MEDLIFE">
+    </a>
+    <h2>Crie sua conta</h2>
+    <form id="formCadastroMedico">
+        <label for="nomeCompleto"></label><input class="nomeCompleto" id="nomeCompleto" placeholder="Nome completo" type="text">
+        <label for="crm"></label><input type="text" class="crm" id="crm" placeholder="CRM">
+        <label for="assinaturaDigital"></label><input type="text" class="assinaturaDigital" id="assinaturaDigital" placeholder="Assinatura digital">
+        <label for="senha"></label><input type="password" class="senha" id="senha" placeholder="Senha">
+        <button type="submit">Cadastrar</button>
+    </form>
+    <p>Já tem conta? <a href="loginMed.html">Faça o login</a></p>
+</div>
+
+<script>
+    document.getElementById('formCadastroMedico').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const nomeCompleto = document.getElementById('nomeCompleto').value;
+        const crm = document.getElementById('crm').value;
+        const assinaturaDigital = document.getElementById('assinaturaDigital').value;
+        const senha = document.getElementById('senha').value;
+
+        const medico = {
+            nomeCompleto: nomeCompleto,
+            crm: crm,
+            assinaturaDigital: assinaturaDigital,
+            senha: senha
+        };
+
+        fetch('http://localhost:8081/medicos/cadastrarMedico', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(medico)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Cadastro realizado com sucesso!');
+                    window.location.href = 'loginMed.html';
+                } else {
+                    alert('Erro ao cadastrar médico.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao cadastrar médico:', error);
+            });
+    });
+</script>
+</body>
+</html>

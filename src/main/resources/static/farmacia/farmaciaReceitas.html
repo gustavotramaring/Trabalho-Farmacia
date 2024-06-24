@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receitas Recebidas - Farmácia</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #585858);
+        }
+
+        .container {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container img.logo {
+            width: 50px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .container table, .container th, .container td {
+            border: 1px solid #333;
+        }
+        .container th, .container td {
+            padding: 10px;
+            text-align: left;
+        }
+        .container button {
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="../.imagens/medlife.webp" alt="Logo MEDLIFE" class="logo">
+    <h2>Receitas Recebidas</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID da Receita</th>
+            <th>Paciente</th>
+            <th>Data de Criação</th>
+            <th>Medicamento</th>
+            <th>Dosagem</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody id="receitasTable">
+
+        </tbody>
+    </table>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('http://localhost:8081/receitas/listar')
+            .then(response => response.json())
+            .then(receitas => {
+                const receitasTable = document.getElementById('receitasTable');
+                receitas.forEach(receita => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                            <td>${receita.id}</td>
+                            <td>${receita.nomePaciente}</td>
+                            <td>${new Date(receita.dataCriacao).toLocaleDateString()}</td>
+                            <td>${receita.nomeMedicamento}</td>
+                            <td>${receita.dosagem}</td>
+                            <td><button onclick="visualizarReceita(${receita.id})">Visualizar</button></td>
+                        `;
+                    receitasTable.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar receitas:', error));
+    });
+
+    function visualizarReceita(id) {
+        window.location.href = `resumoReceita.html?id=${id}`;
+    }
+</script>
+</body>
+</html>

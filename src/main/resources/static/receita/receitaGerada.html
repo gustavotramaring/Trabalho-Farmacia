@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo da Receita - MEDLIFE</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #585858);
+        }
+        .container {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container p {
+            margin: 10px 0;
+            text-align: left;
+            color: #000;
+        }
+        .container button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Resumo da Receita</h2>
+    <p><strong>Nome do Paciente:</strong> <span id="nome_paciente"></span></p>
+    <p><strong>Data de Nascimento:</strong> <span id="data_nascimento"></span></p>
+    <p><strong>CPF:</strong> <span id="cpf"></span></p>
+    <p><strong>Plano de Saúde:</strong> <span id="plano_saude"></span></p>
+    <hr>
+    <p><strong>Nome do Médico:</strong> <span id="nome_medico"></span></p>
+    <p><strong>CRM:</strong> <span id="crm"></span></p>
+    <hr>
+    <p><strong>Nome do Medicamento:</strong> <span id="nome_medicamento"></span></p>
+    <p><strong>Dosagem:</strong> <span id="dosagem"></span></p>
+    <p><strong>Quantidade:</strong> <span id="quantidade"></span></p>
+    <p><strong>Via de Administração:</strong> <span id="via_administracao"></span></p>
+    <p><strong>Observações:</strong> <span id="observacoes"></span></p>
+    <button onclick="confirmarReceita()">Confirmar Receita</button>
+</div>
+
+<script>
+
+    function preencherDados() {
+        document.getElementById('nome_paciente').innerText = sessionStorage.getItem('nomePaciente');
+        document.getElementById('data_nascimento').innerText = sessionStorage.getItem('dataNascimento');
+        document.getElementById('cpf').innerText = sessionStorage.getItem('cpf');
+        document.getElementById('plano_saude').innerText = sessionStorage.getItem('planoSaude');
+        document.getElementById('nome_medico').innerText = sessionStorage.getItem('nomeMedico');
+        document.getElementById('crm').innerText = sessionStorage.getItem('crm');
+        document.getElementById('nome_medicamento').innerText = sessionStorage.getItem('nomeMedicamento');
+        document.getElementById('dosagem').innerText = sessionStorage.getItem('dosagem');
+        document.getElementById('quantidade').innerText = sessionStorage.getItem('quantidade');
+        document.getElementById('via_administracao').innerText = sessionStorage.getItem('viaAdministracao');
+        document.getElementById('observacoes').innerText = sessionStorage.getItem('observacoes');
+    }
+
+
+    function enviarReceitaParaBackend() {
+        const dadosReceita = {
+            nomePaciente: sessionStorage.getItem('nomePaciente'),
+            dataNascimento: sessionStorage.getItem('dataNascimento'),
+            cpf: sessionStorage.getItem('cpf'),
+            planoSaude: sessionStorage.getItem('planoSaude'),
+            nomeMedico: sessionStorage.getItem('nomeMedico'),
+            crm: sessionStorage.getItem('crm'),
+            nomeMedicamento: sessionStorage.getItem('nomeMedicamento'),
+            dosagem: sessionStorage.getItem('dosagem'),
+            quantidade: sessionStorage.getItem('quantidade'),
+            viaAdministracao: sessionStorage.getItem('viaAdministracao'),
+            observacoes: sessionStorage.getItem('observacoes'),
+            dataCriacao: new Date().toISOString()
+        };
+
+        fetch('http://localhost:8081/receitas/criar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosReceita)
+        })
+            .then(response => response.json())
+            .then(data => {
+                sessionStorage.setItem('idReceita', data.id);
+                alert('Receita criada com sucesso!');
+                window.location.href = `receitasCriadas.html`;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+    }
+
+    function confirmarReceita() {
+        enviarReceitaParaBackend();
+    }
+
+    window.onload = preencherDados;
+</script>
+</body>
+</html>

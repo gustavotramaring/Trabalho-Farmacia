@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispensação da Receita - Farmácia</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #585858);
+        }
+        .container {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #333;
+            border-radius: 20px;
+            background-color: #333;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .container label {
+            display: block;
+            margin-top: 10px;
+            color: #000;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        .container button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Dispensação da Receita</h2>
+    <label for="data">Data:</label>
+    <input type="date" id="data" name="data" required><br>
+    <label for="hora">Hora:</label>
+    <input type="time" id="hora" name="hora" required><br>
+    <label for="farmaceutico">Farmacêutico Responsável:</label>
+    <input type="text" id="farmaceutico" name="farmaceutico" placeholder="Farmacêutico Responsável" required><br>
+    <button type="submit" onclick="confirmarDispensacao()">Confirmar Dispensação</button>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idReceita = urlParams.get('id');
+
+        if (!idReceita) {
+            console.error('O ID da receita não foi encontrado na URL.');
+            return;
+        }
+
+        console.log('ID da receita:', idReceita);
+
+        window.confirmarDispensacao = function () {
+            fetch(`http://localhost:8081/receitas/excluir/${idReceita}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Receita excluída com sucesso.');
+                        window.location.href = 'caminho_para_pagina_de_receitas';
+                    } else {
+                        console.error('Erro ao excluir a receita');
+                    }
+                })
+                .catch(error => console.error('Erro ao excluir a receita:', error));
+        }
+    });
+</script>
+</body>
+</html>
