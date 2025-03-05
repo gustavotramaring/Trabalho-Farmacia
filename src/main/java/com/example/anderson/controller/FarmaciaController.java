@@ -1,7 +1,6 @@
 package com.example.anderson.controller;
 
 import com.example.anderson.Model.Farmacia;
-import com.example.anderson.Repository.FarmaciaRepository;
 import com.example.anderson.Service.FarmaciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,55 +14,52 @@ import java.util.List;
 @RequestMapping("/farmacias")
 public class FarmaciaController {
 
-    @Autowired
-    private FarmaciaService farmaciaService;
-    private Farmacia authenticatedFarmacia;
+    private final FarmaciaService farmaciaService;
 
-    @GetMapping("/listar")
-    public List<Farmacia> listarFarmacias() {
-        return farmaciaService.listarFarmacias();
+    @Autowired
+    public FarmaciaController(FarmaciaService farmaciaService) {
+        this.farmaciaService = farmaciaService;
     }
 
-    @PostMapping("/cadastrarFarmacia")
+    @GetMapping
+    public ResponseEntity<List<Farmacia>> listarFarmacias() {
+        List<Farmacia> farmacias = farmaciaService.listarFarmacias();
+        return ResponseEntity.ok(farmacias);
+    }
+
+    @PostMapping
     public ResponseEntity<Farmacia> cadastrarFarmacia(@RequestBody Farmacia farmacia) {
         Farmacia novaFarmacia = farmaciaService.cadastrarFarmacia(farmacia);
-        if (novaFarmacia == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(novaFarmacia, HttpStatus.CREATED);
+        return novaFarmacia != null ?
+                new ResponseEntity<>(novaFarmacia, HttpStatus.CREATED) :
+                ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Farmacia> buscarFarmaciaPorId(@PathVariable Long id) {
         Farmacia farmacia = farmaciaService.buscarFarmaciaPorId(id);
-        if (farmacia == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(farmacia, HttpStatus.OK);
+        return farmacia != null ? ResponseEntity.ok(farmacia) : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirFarmacia(@PathVariable Long id) {
         farmaciaService.excluirFarmacia(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/alterar/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Farmacia> alterarFarmacia(@PathVariable Long id, @RequestBody Farmacia farmacia) {
         Farmacia farmaciaAtualizada = farmaciaService.alterarFarmacia(id, farmacia);
-        if (farmaciaAtualizada == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(farmaciaAtualizada, HttpStatus.OK);
+        return farmaciaAtualizada != null ?
+                ResponseEntity.ok(farmaciaAtualizada) :
+                ResponseEntity.badRequest().build();
     }
 
-    @PostMapping(path = "/loginFarmacia")
+    @PostMapping("/login")
     public ResponseEntity<Farmacia> loginFarmacia(@RequestBody Farmacia farmacia) {
         Farmacia authenticatedFarmacia = farmaciaService.autenticarFarmacia(farmacia.getCnpj(), farmacia.getSenha());
-        if (authenticatedFarmacia != null) {
-            return new ResponseEntity<>(authenticatedFarmacia, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+        return authenticatedFarmacia != null ?
+                ResponseEntity.ok(authenticatedFarmacia) :
+                ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

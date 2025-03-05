@@ -11,18 +11,18 @@ public class Farmacia {
     private Long id;
     private int cnpj;
     private String senha;
-    private int dataEHoraDaDispensacao;
-    private String medicamentosDispensados;
-    private int quantidadeDispensada;
-    private String farmaceuticoResponsavel;
+    private int dataDisp;
+    private String medDisp;
+    private int qtdDisp;
+    private String responsavel;
 
-    public Farmacia(int cnpj, String senha, int dataEHoraDaDispensacao, String medicamentosDispensados, int quantidadeDispensada, String farmaceuticoResponsavel, Long id) {
+    public Farmacia(int cnpj, String senha, int dataDisp, String medDisp, int qtdDisp, String responsavel, Long id) {
         this.cnpj = cnpj;
         this.senha = senha;
-        this.dataEHoraDaDispensacao = dataEHoraDaDispensacao;
-        this.medicamentosDispensados = medicamentosDispensados;
-        this.quantidadeDispensada = quantidadeDispensada;
-        this.farmaceuticoResponsavel = farmaceuticoResponsavel;
+        this.dataDisp = dataDisp;
+        this.medDisp = medDisp;
+        this.qtdDisp = qtdDisp;
+        this.responsavel = responsavel;
         this.id = id;
     }
 
@@ -46,36 +46,36 @@ public class Farmacia {
         this.senha = senha;
     }
 
-    public int getDataEHoraDaDispensacao() {
-        return dataEHoraDaDispensacao;
+    public int getDataDisp() {
+        return dataDisp;
     }
 
-    public void setDataEHoraDaDispensacao(int dataEHoraDaDispensacao) {
-        this.dataEHoraDaDispensacao = dataEHoraDaDispensacao;
+    public void setDataDisp(int dataDisp) {
+        this.dataDisp = dataDisp;
     }
 
-    public String getMedicamentosDispensados() {
-        return medicamentosDispensados;
+    public String getMedDisp() {
+        return medDisp;
     }
 
-    public void setMedicamentosDispensados(String medicamentosDispensados) {
-        this.medicamentosDispensados = medicamentosDispensados;
+    public void setMedDisp(String medDisp) {
+        this.medDisp = medDisp;
     }
 
-    public int getQuantidadeDispensada() {
-        return quantidadeDispensada;
+    public int getQtdDisp() {
+        return qtdDisp;
     }
 
-    public void setQuantidadeDispensada(int quantidadeDispensada) {
-        this.quantidadeDispensada = quantidadeDispensada;
+    public void setQtdDisp(int qtdDisp) {
+        this.qtdDisp = qtdDisp;
     }
 
-    public String getFarmaceuticoResponsavel() {
-        return farmaceuticoResponsavel;
+    public String getResponsavel() {
+        return responsavel;
     }
 
-    public void setFarmaceuticoResponsavel(String farmaceuticoResponsavel) {
-        this.farmaceuticoResponsavel = farmaceuticoResponsavel;
+    public void setResponsavel(String responsavel) {
+        this.responsavel = responsavel;
     }
 
     public Long getId() {

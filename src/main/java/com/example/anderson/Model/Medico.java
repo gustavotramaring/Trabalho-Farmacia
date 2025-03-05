@@ -18,7 +18,7 @@ public class Medico {
     @Column
     private int crm;
     @Column
-    private String assinaturaDigital;
+    private String assinatura;
     @Column
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -28,15 +28,15 @@ public class Medico {
     @Column
     private String senha;
     @Column
-    private String certificadoDigital;
+    private String certificado;
 
-    public Medico(String nomeCompleto, int crm, String assinaturaDigital, String usuario, String senha, String certificadoDigital, Long id) {
+    public Medico(String nomeCompleto, int crm, String assinatura, String usuario, String senha, String certificado, Long id) {
         this.nomeCompleto = nomeCompleto;
         this.crm = crm;
-        this.assinaturaDigital = assinaturaDigital;
+        this.assinatura = assinatura;
         this.usuario = usuario;
         this.senha = senha;
-        this.certificadoDigital = certificadoDigital;
+        this.certificado = certificado;
         this.id = id;
 
     }
@@ -61,12 +61,12 @@ public class Medico {
         this.crm = crm;
     }
 
-    public String getAssinaturaDigital() {
-        return assinaturaDigital;
+    public String getAssinatura() {
+        return assinatura;
     }
 
-    public void setAssinaturaDigital(String assinaturaDigital) {
-        this.assinaturaDigital = assinaturaDigital;
+    public void setAssinatura(String assinatura) {
+        this.assinatura = assinatura;
     }
 
     public String getUsuario() {
@@ -85,12 +85,12 @@ public class Medico {
         this.senha = senha;
     }
 
-    public String getCertificadoDigital() {
-        return certificadoDigital;
+    public String getCertificado() {
+        return certificado;
     }
 
-    public void setCertificadoDigital(String certificadoDigital) {
-        this.certificadoDigital = certificadoDigital;
+    public void setCertificado(String certificado) {
+        this.certificado = certificado;
     }
 
     public Long getId() {
