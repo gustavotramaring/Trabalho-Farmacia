@@ -17,13 +17,13 @@ public class Medicamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String nomeMedicamento;
+    private String medicamento;
     @Column
     private int dosagem;
     @Column
     private int quantidade;
     @Column
-    private String viaDeAdministracao;
+    private String via;
     @Column
     private String observacoes;
 
@@ -31,12 +31,12 @@ public class Medicamento {
 
     }
 
-    public String getNomeMedicamento() {
-        return nomeMedicamento;
+    public String getMedicamento() {
+        return medicamento;
     }
 
-    public void setNomeMedicamento(String nomeMedicamento) {
-        this.nomeMedicamento = nomeMedicamento;
+    public void setMedicamento(String medicamento) {
+        this.medicamento = medicamento;
     }
 
     public int getDosagem() {
@@ -55,12 +55,12 @@ public class Medicamento {
         this.quantidade = quantidade;
     }
 
-    public String getViaDeAdministracao() {
-        return viaDeAdministracao;
+    public String getVia() {
+        return via;
     }
 
-    public void setViaDeAdministracao(String viaDeAdministracao) {
-        this.viaDeAdministracao = viaDeAdministracao;
+    public void setVia(String via) {
+        this.via = via;
     }
 
     public String getObservacoes() {
@@ -79,12 +79,12 @@ public class Medicamento {
         return id;
     }
 
-    public Medicamento(Long id, String nomeMedicamento, int dosagem, int quantidade, String viaDeAdministracao, String observacoes) {
+    public Medicamento(Long id, String medicamento, int dosagem, int quantidade, String via, String observacoes) {
         this.id = id;
-        this.nomeMedicamento = nomeMedicamento;
+        this.medicamento = medicamento;
         this.dosagem = dosagem;
         this.quantidade = quantidade;
-        this.viaDeAdministracao = viaDeAdministracao;
+        this.via = via;
         this.observacoes = observacoes;
     }
 }

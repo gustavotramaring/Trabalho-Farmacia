@@ -2,7 +2,6 @@ package com.example.anderson.controller;
 
 import com.example.anderson.Model.Receita;
 import com.example.anderson.Service.ReceitaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,33 +13,33 @@ import java.util.List;
 @RequestMapping("/receitas")
 public class ReceitaController {
 
-    @Autowired
-    private ReceitaService receitaService;
+    private final ReceitaService receitaService;
 
-    @GetMapping("/listar")
-    public List<Receita> listarReceitas() {
-        return receitaService.listarReceitas();
+    public ReceitaController(ReceitaService receitaService) {
+        this.receitaService = receitaService;
     }
 
-    @PostMapping("/criar")
+    @GetMapping
+    public ResponseEntity<List<Receita>> listarReceitas() {
+        List<Receita> receitas = receitaService.listarReceitas();
+        return ResponseEntity.ok(receitas);
+    }
+
+    @PostMapping
     public ResponseEntity<Receita> criarReceita(@RequestBody Receita receita) {
         Receita novaReceita = receitaService.criarReceita(receita);
-        return new ResponseEntity<>(novaReceita, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novaReceita);
     }
 
-    @CrossOrigin(origins = "*")
-    @GetMapping("/buscar/{id}")
-    public ResponseEntity<Receita> buscarReceitaPorId(@PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Receita> buscarReceitaPorId(@PathVariable Long id) {
         Receita receita = receitaService.buscarReceitaPorId(id);
-        if (receita == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(receita, HttpStatus.OK);
+        return receita != null ? ResponseEntity.ok(receita) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirReceita(@PathVariable Long id) {
         receitaService.excluirReceita(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

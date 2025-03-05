@@ -16,7 +16,7 @@ public  class MedicamentoServiceConcrete implements MedicamentoService {
 
     @Override
     public Medicamento cadastrarMedicamento(Medicamento medicamento) {
-        if (medicamento.getNomeMedicamento() == null || medicamento.getNomeMedicamento().isEmpty()) {
+        if (medicamento.getMedicamento() == null || medicamento.getMedicamento().isEmpty()) {
             return null;
         }
         return medicamentoRepository.save(medicamento);
